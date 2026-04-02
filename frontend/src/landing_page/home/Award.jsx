@@ -2,7 +2,7 @@ import React from 'react';
 function Award() {
     return (  
         <h1>
-           Award 
+           Award <i class="fa-solid fa-circle-user"></i>
         </h1>
     );
 }
