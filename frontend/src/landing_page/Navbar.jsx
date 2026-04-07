@@ -1,11 +1,12 @@
 import React from "react";
+import {Link} from "react-router-dom";
 function Navbar() {
   return (
       <nav class="navbar navbar-expand-lg border-bottom " style={{backgroundColor:"white",position: "fixed", top: 0, left: 0, right: 0, zIndex: 1050}}>
         <div class="container p-2">
-          <a class="navbar-brand" href="#">
+          < Link class="navbar-brand" to="/">
             <img src="public/media/image/logo.svg" alt="logo" style={{width:"25%"}}/>
-          </a>
+          </Link>
           <button
             class="navbar-toggler"
             type="button"
@@ -21,34 +22,34 @@ function Navbar() {
             <form class="d-flex">
                  <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#" style={{fontFamily:"inter", color:"#666"}}>
-                  signup
-                </a>
+                <Link class="nav-link active" aria-current="page" to="/signup" style={{fontFamily:"inter", color:"#666"}}>
+                  Signup
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#" style={{fontFamily:"inter", color:"#666"}}>
+                <Link class="nav-link active" to="/about" style={{fontFamily:"inter", color:"#666"}}>
                   About
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#" style={{fontFamily:"inter", color:"#666"}}>
+                <Link class="nav-link active" to="/products" style={{fontFamily:"inter", color:"#666"}}>
                   Products
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#" style={{fontFamily:"inter", color:"#666"}}>
+                <Link class="nav-link active" to="/pricing" style={{fontFamily:"inter", color:"#666"}}>
                   Pricing
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#" style={{fontFamily:"inter", color:"#666"}}>
+                <Link class="nav-link active" to="/support" style={{fontFamily:"inter", color:"#666"}}>
                   Support
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <Link class="nav-link active" href="#">
                    <i class="fa-solid fa-bars"></i>
-                </a>
+                </Link>
               </li>
             </ul>
             </form>
