@@ -15,16 +15,16 @@ function ProductPage() {
         ProductName="Kite"
         ProductDescription="Our ultra-fast flagship trading platform with streaming market data, advanced charts, an elegant UI, and more. Enjoy the Kite experience seamlessly on your Android and iOS devices."
         TryDemo="https://zerodha.com/"
-        LearnMore="https://zerodha.com" 
+        LearnMore="https://zerodha.com"
         GooglePlay="/media/Image/google-play-badge-light.svg"
         AppStore="/media/Image/appstore-badge-light.svg"
       />
 
-      <RightSection 
-      ImageURL="\media\Image\console.png"
-      ProductName="Console"
-      ProductDescription="The central dashboard for your Zerodha account. Gain insights into your trades and investments with in-depth reports and visualisations."
-      LearnMore=""
+      <RightSection
+        ImageURL="\media\Image\console.png"
+        ProductName="Console"
+        ProductDescription="The central dashboard for your Zerodha account. Gain insights into your trades and investments with in-depth reports and visualisations."
+        LearnMore=""
       />
 
       <LeftSection
@@ -32,16 +32,16 @@ function ProductPage() {
         ProductName="Coin"
         ProductDescription="Buy direct mutual funds online, commission-free, delivered directly to your Demat account. Enjoy the investment experience on your Android and iOS devices."
         customLinkText="Coin"
-        customLinkHref="https://coin.com/"     
+        customLinkHref="https://coin.com/"
         GooglePlay="/media/Image/google-play-badge-light.svg"
         AppStore="/media/Image/appstore-badge-light.svg"
       />
 
       <RightSection
-      ImageURL="\media\Image\kiteconnect.png"
-      ProductName="Kite Connect API"
-      ProductDescription="Build powerful trading platforms and experiences with our super simple HTTP/JSON APIs. If you are a startup, build your investment app and showcase it to our clientbase."
-      LearnMore=""
+        ImageURL="\media\Image\kiteconnect.png"
+        ProductName="Kite Connect API"
+        ProductDescription="Build powerful trading platforms and experiences with our super simple HTTP/JSON APIs. If you are a startup, build your investment app and showcase it to our clientbase."
+        LearnMore=""
       />
 
       <LeftSection
