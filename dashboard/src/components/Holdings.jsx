@@ -18,11 +18,11 @@ const Holdings = () =>{
                     <th>Day chg.</th>
                 </tr>
 
-                {holdings.map((stack, index)=>{
+                {holdings.map((stock, index)=>{
                     const curValue = stock.price * stock.qty;
                     const isProfit = curValue - stock.avg * stock.qty >= 0.0;
                     const profClass = isProfit ? "profit" : "loss";
-                    const dayClass = stock.isLoss ? "Loss" : "profit";
+                    const dayClass = stock.isLoss ? "loss" : "profit";
 
                     return (
                         <tr key={index}>
@@ -42,5 +42,7 @@ const Holdings = () =>{
             </table>
         </div>
         </>
-    )
-}
+    );
+};
+
+export default Holdings;
