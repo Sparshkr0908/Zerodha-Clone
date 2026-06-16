@@ -3,6 +3,9 @@ config();
 
 import express from "express";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import cors from "cors";
+
 import {HoldingsModel} from "./model/HoldingsModel.js"
 import {PositionsModel} from "./model/PositionsModel.js"
 
@@ -10,6 +13,9 @@ const PORT = process.env.PORT || 5501;
 const uri = process.env.MONGO_URL;
 
 const app = express();
+
+app.use(cors());
+app.use(bodyParser.json());
 
 // app.get('/addHoldings', async(req, res)=>{
 //   let tempHolding = [
@@ -104,6 +110,16 @@ const app = express();
 //   });
 //   res.send("Done");
 // });
+
+app.get('/allHoldings', async(req, res) =>{
+  let allHoldings = await HoldingsModel.find({});
+  res.json(allHoldings);
+});
+
+app.get('/allPositions', async(req, res) =>{
+  let allPositions = await PositionsModel.find({});
+  res.json(allPositions);
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.`);
