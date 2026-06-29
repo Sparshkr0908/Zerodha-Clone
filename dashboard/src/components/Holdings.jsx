@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
 // import { holdings } from "../data/data";
 import axios from "axios";
+import { VerticalGraph } from "./VerticalGraph";
 
 
 const Holdings = () =>{
 
-    const [allholdings, setAllHoldings] = useState([]);
+    const [allHoldings, setAllHoldings] = useState([]);
 
     useEffect(() =>{
         axios.get("http://localhost:5501/allHoldings").then((res)=>{
@@ -13,9 +14,22 @@ const Holdings = () =>{
         });
     }, []);
 
+const labels = allHoldings.map((subArray) => subArray["name"])
+
+ const data = {
+    labels,
+    datasets: [
+      {
+        label: "Stock Price",
+        data: allHoldings.map((stock) => stock.price),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
+
     return(
         <>
-            <h3 classname="title">Holdings ({allholdings.length})</h3>
+            <h3 classname="title">Holdings ({allHoldings.length})</h3>
         <div className="order-table">
             <table>
                 <tr>
@@ -29,7 +43,7 @@ const Holdings = () =>{
                     <th>Day chg.</th>
                 </tr>
 
-                {allholdings.map((stock, index)=>{
+                {allHoldings.map((stock, index)=>{
                     const curValue = stock.price * stock.qty;
                     const isProfit = curValue - stock.avg * stock.qty >= 0.0;
                     const profClass = isProfit ? "profit" : "loss";
@@ -52,6 +66,26 @@ const Holdings = () =>{
                 })}
             </table>
         </div>
+
+        <div className="row">
+        <div className="col">
+          <h5>
+            29,875.<span>55</span>{" "}
+          </h5>
+          <p>Total investment</p>
+        </div>
+        <div className="col">
+          <h5>
+            31,428.<span>95</span>{" "}
+          </h5>
+          <p>Current value</p>
+        </div>
+        <div className="col">
+          <h5>1,553.40 (+5.20%)</h5>
+          <p>P&L</p>
+        </div>
+      </div>
+      <VerticalGraph data={data} />
         </>
     );
 };
