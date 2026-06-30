@@ -1,0 +1,75 @@
+.page_wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgb(88, 127, 143) 35%,
+    rgb(90, 152, 165) 100%
+  );
+}
+
+
+.form_container {
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  margin-top: 150px;
+  margin-bottom: 100px;
+}
+
+.form_container h2 {
+  margin-block: 1rem;
+  padding-block: 0.6rem;
+  color:#286ACD;
+}
+
+.form_container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.form_container div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form_container label {
+  font-size: 1.2rem;
+  color: #656262;
+}
+
+.form_container input {
+  border: none;
+  padding: 0.5rem;
+  border-bottom: 1px solid gray;
+  font-size: 1.1rem;
+  outline: none;
+}
+
+.form_container input::placeholder {
+  font-size: 0.9rem;
+}
+
+.form_container button {
+  background-color:#286ACD;
+  color: #fff;
+  border: none;
+  padding: 0.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.3rem;
+}
+
+.form_container span a {
+  text-decoration: none;
+  color: #286ACD;
+}

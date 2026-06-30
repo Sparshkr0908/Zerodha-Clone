@@ -8,6 +8,7 @@ import PricingPage from "./landing_page/pricing/PricingPage";
 import SupportPage from "./landing_page/support/SupportPage";
 import ProductPage from "./landing_page/products/ProductPage";
 import Signup from "./landing_page/signup/Signup";
+import Login from "./landing_page/signup/Login";
 import Navbar from "./landing_page/Navbar";
 import Footer from "./landing_page/Footer";
 import NotFound from "./landing_page/notFound";
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")).render(
     <Routes>
       <Route path="/" element={<HomePage />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
+      <Route path ="/Login" element={<Login />}></Route>
       <Route path="/about" element={<AboutPage />}></Route>
       <Route path="/products" element={<ProductPage />}></Route>
       <Route path="/pricing" element={<PricingPage />}></Route>
