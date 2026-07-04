@@ -5,7 +5,9 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
+import authRoute from "./Routes/AuthRoute.js";
 import {HoldingsModel} from "./model/HoldingsModel.js"
 import {PositionsModel} from "./model/PositionsModel.js"
 
@@ -14,8 +16,16 @@ const uri = process.env.MONGO_URL;
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: ["http://localhost:5173"], 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(cookieParser());
+
 
 // app.get('/addHoldings', async(req, res)=>{
 //   let tempHolding = [
@@ -110,6 +120,8 @@ app.use(bodyParser.json());
 //   });
 //   res.send("Done");
 // });
+
+app.use("/", authRoute);
 
 app.get('/allHoldings', async(req, res) =>{
   let allHoldings = await HoldingsModel.find({});
