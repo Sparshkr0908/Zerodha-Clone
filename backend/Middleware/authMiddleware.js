@@ -1,4 +1,4 @@
-import User from "../Model/frontendSignupModel.js";
+import User from "../model/frontendSignupModel.js";
 import { config } from "dotenv";
 config();
 import jwt from "jsonwebtoken";

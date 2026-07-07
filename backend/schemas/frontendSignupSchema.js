@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import bcryptjs from "bcrypt";
+import bcrypt from "bcrypt";
 
 export const userSchema = new Schema({
   email: {
@@ -24,5 +24,3 @@ export const userSchema = new Schema({
 userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, 12);
 });
-
-export {userSchema};

@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import authRoute from "./Routes/AuthRoute.js";
+import authRoute from "./Route/AuthRoute.js";
 import {HoldingsModel} from "./model/HoldingsModel.js"
 import {PositionsModel} from "./model/PositionsModel.js"
 

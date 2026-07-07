@@ -1,6 +1,6 @@
 import User from "../model/frontendSignupModel.js";
 import { createSecretToken } from "../util/SecretToken.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 //signup controller
 export const Signup = async (req, res) => {
