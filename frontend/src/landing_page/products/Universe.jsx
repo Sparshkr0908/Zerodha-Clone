@@ -1,5 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
 function Universe() {
+  const [cookies] = useCookies(["token"]);
+
   return (
     <div className="container">
       <div className="row mt-5 text-center" style={{ color: "#424242" }}>
@@ -100,12 +105,11 @@ function Universe() {
         </div>
       </div>
       <div className="row mb-5">
-        <button
-          className="btn btn-primary fs-5 text-center"
-          style={{ width: "20%", margin: "0 auto" }}
-        >
-          Sign up for free
-        </button>
+        {!cookies.token && (
+          <Link to="/signup" className="mt-3 p-2 btn btn-primary fs-5" style={{ width: "20%", margin: "0 auto" }}>
+            Sign up for free
+          </Link>
+        )}
       </div>
     </div>
   );

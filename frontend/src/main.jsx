@@ -9,17 +9,20 @@ import SupportPage from "./landing_page/support/SupportPage";
 import ProductPage from "./landing_page/products/ProductPage";
 import Signup from "./landing_page/page/Signup";
 import Login from "./landing_page/page/Login";
+import Home from "./landing_page/page/Home";
 import Navbar from "./landing_page/Navbar";
 import Footer from "./landing_page/Footer";
 import NotFound from "./landing_page/notFound";
+import { CookiesProvider } from "react-cookie";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <CookiesProvider defaultSetOptions={{ path: "/" }}>
+    <BrowserRouter>
     <Navbar />
     <Routes>
-      <Route path="/" element={<HomePage />}></Route>
+      <Route path="/" element={<Home />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
-      <Route path ="/Login" element={<Login />}></Route>
+      <Route path ="/login" element={<Login />}></Route>
       <Route path="/about" element={<AboutPage />}></Route>
       <Route path="/products" element={<ProductPage />}></Route>
       <Route path="/pricing" element={<PricingPage />}></Route>
@@ -27,5 +30,6 @@ createRoot(document.getElementById("root")).render(
       <Route path="*" element={<NotFound />}></Route>
     </Routes>
     <Footer />
-  </BrowserRouter>,
+  </BrowserRouter>
+  </CookiesProvider>,
 );

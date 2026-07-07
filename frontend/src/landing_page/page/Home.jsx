@@ -7,7 +7,7 @@ import HomePage from "../home/HomePage";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"])
   const [username, setUsername] = useState("");
   useEffect(() => {
     const verifyCookie = async () => {
@@ -30,12 +30,18 @@ const Home = () => {
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
   const Logout = () => {
-    removeCookie("token");
-    navigate("/signup");
-  };
+    removeCookie("token", { path: "/" });
+    navigate("/login");
+};
   return (
     <>
         <HomePage />
-    </>
-  );
+        <ToastContainer />
+        <div className="row mb-5">
+          <button onClick={Logout} className="btn btn-outline-danger" style={{width:"20%", margin:"0 auto"}}>Logout</button>
+        </div>
+        </>
+  )
 };
+
+export default Home;

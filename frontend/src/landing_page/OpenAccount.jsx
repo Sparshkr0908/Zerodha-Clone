@@ -1,5 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
 function OpenAccount() {
+  const [cookies] = useCookies(["token"]);
+
   return (
     <div className="container p-3 mb-5 mt-5">
       <div
@@ -15,12 +20,11 @@ function OpenAccount() {
           Modern platforms and apps, ₹0 investments, and flat ₹20 intraday and
           F&O trades.
         </p>
-        <button
-          className="mt-3 p-2 btn btn-primary fs-5"
-          style={{ width: "20%", margin: "0 auto" }}
-        >
-          Sign up for free
-        </button>
+        {!cookies.token && (
+          <Link to="/signup" className="mt-3 p-2 btn btn-primary fs-5" style={{ width: "20%", margin: "0 auto" }}>
+            Sign up for free
+          </Link>
+        )}
       </div>
     </div>
   );

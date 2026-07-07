@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
 function Navbar() {
+  const [cookies] = useCookies(["token"]);
+
   return (
     <nav
       class="navbar navbar-expand-lg border-bottom "
@@ -36,7 +40,9 @@ function Navbar() {
           <form class="d-flex">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <Link
+
+              {!cookies.token && (
+                        <Link
                   class="nav-link active"
                   aria-current="page"
                   to="/signup"
@@ -44,6 +50,7 @@ function Navbar() {
                 >
                   Signup
                 </Link>
+              )}
               </li>
               <li class="nav-item">
                 <Link
