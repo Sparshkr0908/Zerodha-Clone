@@ -8,11 +8,27 @@ const Holdings = () =>{
 
     const [allHoldings, setAllHoldings] = useState([]);
 
-    useEffect(() =>{
-        axios.get("http://localhost:5501/allHoldings").then((res)=>{
-            setAllHoldings(res.data);
-        });
-    }, []);
+    useEffect(() => {
+    axios.get("http://localhost:5501/allHoldings").then(async (res) => {
+        const holdingsFromDB = res.data;
+
+        const updatedHoldings = await Promise.all(
+            holdingsFromDB.map(async (stock) => {
+                try {
+                    const liveRes = await axios.get(
+                        `http://localhost:5501/stockData?name=${stock.name}`
+                    );
+                    const livePrice = liveRes.data.data.currentPrice.NSE;
+                    return { ...stock, price: livePrice };
+                } catch (err) {
+                    return stock;
+                }
+            })
+        );
+
+        setAllHoldings(updatedHoldings);
+    });
+}, []);
 
 const labels = allHoldings.map((subArray) => subArray["name"])
 
@@ -54,7 +70,7 @@ const labels = allHoldings.map((subArray) => subArray["name"])
                             <td>{stock.name}</td>
                             <td>{stock.qty}</td>
                             <td>{stock.avg.toFixed(2)}</td>
-                            <td>{stock.price.toFixed(2)}</td>
+                            <td>{stock.price ? stock.price.toFixed(2) : "N/A"}</td>
                             <td>{curValue.toFixed(2)}</td>
                             <td className={profClass}>
                                 {(curValue - stock.avg * stock.qty).toFixed(2)}

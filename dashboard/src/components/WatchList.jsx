@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import GeneralContext from "./GeneralContext";
 import { Tooltip, Grow } from "@mui/material";
 import {
@@ -7,12 +7,28 @@ import {
   KeyboardArrowUp,
   MoreHoriz,
 } from "@mui/icons-material";
-import { watchlist } from "../data/data";
+import axios from 'axios';
 import { DoughnutChart } from "./DoughnoutChart";
 
 const labels = watchlist.map((subArray) => subArray["name"]);
 
 const WatchList = () => {
+  const [watchlist, setWatchlist] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5501/watchlistData").then((res) => {
+      const formatted = res.data.data.map((stock) => ({
+        name: stock.company,
+        price: stock.price,
+        percent: stock.percent_change + "%",
+        isDown: stock.percent_change < 0,
+      }));
+      setWatchlist(formatted);
+    });
+  }, []);
+
+  const labels = watchlist.map((subArray) => subArray["name"]); 
+
   const data = {
     labels,
     datasets: [
