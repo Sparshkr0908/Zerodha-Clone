@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import authRoute from "./Route/AuthRoute.js";
 import {HoldingsModel} from "./model/HoldingsModel.js"
 import {PositionsModel} from "./model/PositionsModel.js"
+import marketRoute from "./Route/MarketRoute.js";
 
 const PORT = process.env.PORT || 5501;
 const uri = process.env.MONGO_URL;
@@ -122,6 +123,8 @@ app.use(cookieParser());
 // });
 
 app.use("/", authRoute);
+
+app.use("/", marketRoute);
 
 app.get('/allHoldings', async(req, res) =>{
   let allHoldings = await HoldingsModel.find({});

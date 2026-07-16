@@ -10,8 +10,6 @@ import {
 import axios from 'axios';
 import { DoughnutChart } from "./DoughnoutChart";
 
-const labels = watchlist.map((subArray) => subArray["name"]);
-
 const WatchList = () => {
   const [watchlist, setWatchlist] = useState([]);
 
