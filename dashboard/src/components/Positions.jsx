@@ -9,7 +9,6 @@ const Positions = () =>{
 
     useEffect(() =>{
         axios.get("http://localhost:5501/allPositions").then((res)=>{
-            console.log(res.data);
             setAllPositions(res.data);
         });
     }, []);
