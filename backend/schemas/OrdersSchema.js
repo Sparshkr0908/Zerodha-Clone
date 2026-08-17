@@ -6,4 +6,5 @@ export const OrdersSchema = new Schema({
     prices: Number,
     total: Number,
     mode: String,
+    product: String,
 });

@@ -7,6 +7,7 @@ import "./BuyActionWindow.css";
 const BuyActionWindow = ({ uid, price }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(price || 0);
+  const [product, setProduct] = useState("CNC"); // default Delivery
   const [error, setError] = useState("");
   const generalContext = useContext(GeneralContext);
 
@@ -28,6 +29,7 @@ const BuyActionWindow = ({ uid, price }) => {
         qty: stockQuantity,
         price: stockPrice,
         mode: "BUY",
+        product,
       });
       alert(data.message);
       generalContext.closeBuyWindow();
@@ -67,6 +69,30 @@ const BuyActionWindow = ({ uid, price }) => {
             />
           </fieldset>
         </div>
+
+        <div className="product-type" style={{ marginTop: "10px" }}>
+          <label style={{ marginRight: "15px" }}>
+            <input
+              type="radio"
+              name="product"
+              value="CNC"
+              checked={product === "CNC"}
+              onChange={() => setProduct("CNC")}
+            />{" "}
+            Delivery
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="product"
+              value="MIS"
+              checked={product === "MIS"}
+              onChange={() => setProduct("MIS")}
+            />{" "}
+            Intraday
+          </label>
+        </div>
+
         {error && <p style={{ color: "red", fontSize: "13px" }}>{error}</p>}
       </div>
 

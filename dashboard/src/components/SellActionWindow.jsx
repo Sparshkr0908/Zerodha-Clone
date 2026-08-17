@@ -4,9 +4,10 @@ import axios from "axios";
 import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 
-const SellActionWindow = ({ uid, price, availableQty }) => {
+const SellActionWindow = ({ uid, price }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(price || 0);
+  const [product, setProduct] = useState("CNC"); // default Delivery
   const [error, setError] = useState("");
   const generalContext = useContext(GeneralContext);
 
@@ -17,27 +18,20 @@ const SellActionWindow = ({ uid, price, availableQty }) => {
   const totalAmount = (stockQuantity * stockPrice).toFixed(2);
 
   const handleQtyChange = (e) => {
-    const qty = Number(e.target.value);
-    setStockQuantity(qty);
-    if (qty > availableQty) {
-      setError(`You only hold ${availableQty} qty`);
-    } else {
-      setError("");
-    }
+    setStockQuantity(Number(e.target.value));
   };
 
   const handleSellClick = async () => {
-    if (stockQuantity > availableQty) {
-      setError(`You only hold ${availableQty} qty`);
-      return;
-    }
+    setError("");
     try {
-      await axios.post("http://localhost:5501/newOrder", {
+      const { data } = await axios.post("http://localhost:5501/newOrder", {
         name: uid,
         qty: stockQuantity,
         price: stockPrice,
         mode: "SELL",
+        product,
       });
+      alert(data.message);
       generalContext.closeSellWindow();
     } catch (err) {
       setError(err.response?.data?.message || "Sell failed");
@@ -53,13 +47,12 @@ const SellActionWindow = ({ uid, price, availableQty }) => {
       <div className="regular-order">
         <div className="inputs">
           <fieldset>
-            <legend>Qty. (Available: {availableQty})</legend>
+            <legend>Qty.</legend>
             <input
               type="number"
               name="qty"
               id="qty"
               min="1"
-              max={availableQty}
               onChange={handleQtyChange}
               value={stockQuantity}
             />
@@ -76,6 +69,30 @@ const SellActionWindow = ({ uid, price, availableQty }) => {
             />
           </fieldset>
         </div>
+
+        <div className="product-type" style={{ marginTop: "10px" }}>
+          <label style={{ marginRight: "15px" }}>
+            <input
+              type="radio"
+              name="sellProduct"
+              value="CNC"
+              checked={product === "CNC"}
+              onChange={() => setProduct("CNC")}
+            />{" "}
+            Delivery (Holdings)
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="sellProduct"
+              value="MIS"
+              checked={product === "MIS"}
+              onChange={() => setProduct("MIS")}
+            />{" "}
+            Intraday (Positions)
+          </label>
+        </div>
+
         {error && <p style={{ color: "red", fontSize: "13px" }}>{error}</p>}
       </div>
 
