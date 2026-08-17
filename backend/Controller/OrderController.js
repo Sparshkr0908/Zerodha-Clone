@@ -8,8 +8,8 @@ const isMarketOpen = () => {
   const istString = now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
   const istDate = new Date(istString);
   const totalMinutes = istDate.getHours() * 60 + istDate.getMinutes();
-  const marketOpen = 10 * 60;  
-  const marketClose = 17 * 60;  
+  const marketOpen = 10 * 60;   // 10:00 AM
+  const marketClose = 17 * 60;  // 5:00 PM
   return totalMinutes >= marketOpen && totalMinutes < marketClose;
 };
 

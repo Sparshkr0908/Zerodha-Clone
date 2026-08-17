@@ -7,6 +7,7 @@ import "./BuyActionWindow.css";
 const BuyActionWindow = ({ uid, price }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(price || 0);
+  const [error, setError] = useState("");
   const generalContext = useContext(GeneralContext);
 
   useEffect(() => {
@@ -16,18 +17,23 @@ const BuyActionWindow = ({ uid, price }) => {
   const totalAmount = (stockQuantity * stockPrice).toFixed(2);
 
   const handleQtyChange = (e) => {
-    const qty = Number(e.target.value);
-    setStockQuantity(qty);
+    setStockQuantity(Number(e.target.value));
   };
 
-  const handleBuyClick = () => {
-    axios.post("http://localhost:5501/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    });
-    generalContext.closeBuyWindow();
+  const handleBuyClick = async () => {
+    setError("");
+    try {
+      const { data } = await axios.post("http://localhost:5501/newOrder", {
+        name: uid,
+        qty: stockQuantity,
+        price: stockPrice,
+        mode: "BUY",
+      });
+      alert(data.message);
+      generalContext.closeBuyWindow();
+    } catch (err) {
+      setError(err.response?.data?.message || "Buy failed");
+    }
   };
 
   const handleCancelClick = () => {
@@ -61,6 +67,7 @@ const BuyActionWindow = ({ uid, price }) => {
             />
           </fieldset>
         </div>
+        {error && <p style={{ color: "red", fontSize: "13px" }}>{error}</p>}
       </div>
 
       <div className="buttons">
