@@ -1,0 +1,118 @@
+.menu-container {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-container img {
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.menus {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menus ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menus li {
+  margin: 0;
+  padding: 0;
+}
+
+.menu {
+  margin: 0;
+  padding: 18px 15px;
+  color: #555;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.menu:hover {
+  color: #f0701a;
+}
+
+.menu.selected {
+  color: #f0701a;
+  font-weight: 500;
+}
+
+.menus hr {
+  height: 25px;
+  width: 1px;
+  border: none;
+  background-color: #ddd;
+  margin: 0 20px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f0701a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.username {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+}
+
+.profile:hover .username {
+  color: #f0701a;
+}
+
+.profile:hover .avatar {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .menus {
+    justify-content: flex-end;
+  }
+
+  .menu {
+    padding: 18px 8px;
+    font-size: 12px;
+  }
+
+  .menus hr {
+    margin: 0 10px;
+  }
+
+  .username {
+    display: none;
+  }
+
+  .profile {
+    margin-right: 5px;
+  }
+}

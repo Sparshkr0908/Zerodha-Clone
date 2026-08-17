@@ -9,6 +9,8 @@ import {
 } from "@mui/icons-material";
 import axios from 'axios';
 import { DoughnutChart } from "./DoughnoutChart";
+import "./WatchList.css";
+
 
 const WatchList = () => {
   const [watchlist, setWatchlist] = useState([]);
