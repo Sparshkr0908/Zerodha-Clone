@@ -240,9 +240,7 @@ code {
   margin-top: 2%;
 }
 
-.row .col:last-child h5 {
-  color: rgb(72, 194, 55);
-}
+
 
 /* sudo selector */
 .item:hover {
@@ -468,9 +466,6 @@ hr {
   margin-top: 2%;
 }
 
-.row .col:last-child h5 {
-  color: rgb(72, 194, 55);
-}
 
 /* sudo selector */
 .item:hover {
@@ -537,6 +532,14 @@ hr {
 .data .first small {
   font-size: 0.8rem;
   color: rgb(72, 194, 55);
+}
+
+.row .col h5.profit {
+  color: rgb(72, 194, 55);
+}
+
+.row .col h5.loss {
+  color: rgb(250, 118, 78);
 }
 
 .data .first .profit {
