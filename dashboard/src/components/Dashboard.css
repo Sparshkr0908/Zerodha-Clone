@@ -1,10 +1,10 @@
 .dashboard-title {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .summary-cards {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   margin-bottom: 25px;
 }
 
@@ -29,9 +29,9 @@
 
 .quick-link {
   padding: 10px 20px;
-  background: #2b5fa3;
+  background: #f0701a;
   color: white;
-  border-radius: 6px;
+  border-radius: 10px;
   text-decoration: none;
   font-size: 14px;
 }
