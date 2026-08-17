@@ -4,5 +4,6 @@ export const OrdersSchema = new Schema({
     name: String,
     qty: Number,
     prices: Number,
+    total: Number,
     mode: String,
 });
