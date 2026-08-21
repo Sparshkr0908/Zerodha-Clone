@@ -12,6 +12,7 @@ import {HoldingsModel} from "./model/HoldingsModel.js"
 import {PositionsModel} from "./model/PositionsModel.js"
 import marketRoute from "./Route/MarketRoute.js";
 import orderRoute from "./Route/OrderRoute.js";
+import fundsRoute from "./Route/FundsRoute.js";
 
 
 const PORT = process.env.PORT || 5501;
@@ -129,6 +130,8 @@ app.use("/", authRoute);
 app.use("/", orderRoute);
 
 app.use("/", marketRoute);
+
+app.use("/", fundsRoute);
 
 app.get('/allHoldings', async(req, res) =>{
   let allHoldings = await HoldingsModel.find({});

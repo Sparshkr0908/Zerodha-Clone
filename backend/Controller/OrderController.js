@@ -2,6 +2,7 @@ import { OrdersModel } from "../model/OrdersModel.js";
 import { HoldingsModel } from "../model/HoldingsModel.js";
 import { PositionsModel } from "../model/PositionsModel.js";
 import { getStockByName } from "../services/indianStockServices.js";
+import { WalletModel } from "../model/WalletModel.js";
 
 const isMarketOpen = () => {
   const now = new Date();
@@ -19,14 +20,16 @@ export const newOrder = async (req, res) => {
     if (!name || !mode || qty == null || Number(qty) <= 0) {
       return res.status(400).json({
         success: false,
-        message: "name, qty, and mode are required and qty must be greater than 0",
+        message:
+          "name, qty, and mode are required and qty must be greater than 0",
       });
     }
 
     if (!isMarketOpen()) {
       return res.status(403).json({
         success: false,
-        message: "Market is closed. Trading is allowed only between 10:00 AM and 5:00 PM IST.",
+        message:
+          "Market is closed. Trading is allowed only between 10:00 AM and 5:00 PM IST.",
       });
     }
 
@@ -35,8 +38,8 @@ export const newOrder = async (req, res) => {
     const stockData = await getStockByName(name);
     const livePrice = Number(
       stockData?.currentPrice?.NSE ??
-      stockData?.currentPrice?.BSE ??
-      stockData?.stockDetailsReusableData?.price
+        stockData?.currentPrice?.BSE ??
+        stockData?.stockDetailsReusableData?.price,
     );
 
     if (!livePrice || isNaN(livePrice)) {
@@ -50,14 +53,44 @@ export const newOrder = async (req, res) => {
     if (mode === "BUY") {
       const offeredPrice = Number(price);
       if (!offeredPrice || offeredPrice < livePrice) {
-        return res.status(400).json({ success: false, message: "Insufficient balance" });
+        return res
+          .status(400)
+          .json({ success: false, message: "Insufficient balance" });
       }
 
       const executionPrice = livePrice;
       const total = numericQty * executionPrice;
 
+      let wallet = await WalletModel.findOne({ userId: "default_user" });
+      if (!wallet)
+        wallet = await WalletModel.create({
+          userId: "default_user",
+          balance: 0,
+          transactions: [],
+        });
+
+      if (wallet.balance < total) {
+        return res.status(400).json({
+          success: false,
+          message: `Insufficient funds. Required ₹${total.toFixed(2)}, available ₹${wallet.balance.toFixed(2)}`,
+        });
+      }
+
+      wallet.balance -= total;
+      wallet.transactions.unshift({
+        type: "DEBIT",
+        amount: total,
+        reason: `Stock Buy - ${name}`,
+      });
+      await wallet.save();
+
       const newOrder = new OrdersModel({
-        name, qty: numericQty, prices: executionPrice, total, mode, product: orderProduct,
+        name,
+        qty: numericQty,
+        prices: executionPrice,
+        total,
+        mode,
+        product: orderProduct,
       });
       await newOrder.save();
 
@@ -82,18 +115,49 @@ export const newOrder = async (req, res) => {
       let pnlResult;
       try {
         if (orderProduct === "MIS") {
-          pnlResult = await updatePositionOnSell(name, numericQty, executionPrice);
+          pnlResult = await updatePositionOnSell(
+            name,
+            numericQty,
+            executionPrice,
+          );
         } else {
-          pnlResult = await updateHoldingsOnSell(name, numericQty, executionPrice);
+          pnlResult = await updateHoldingsOnSell(
+            name,
+            numericQty,
+            executionPrice,
+          );
         }
       } catch (sellErr) {
-        return res.status(400).json({ success: false, message: sellErr.message });
+        return res
+          .status(400)
+          .json({ success: false, message: sellErr.message });
       }
 
       const newOrder = new OrdersModel({
-        name, qty: numericQty, prices: executionPrice, total, mode, product: orderProduct,
+        name,
+        qty: numericQty,
+        prices: executionPrice,
+        total,
+        mode,
+        product: orderProduct,
       });
       await newOrder.save();
+
+      let wallet = await WalletModel.findOne({ userId: "default_user" });
+      if (!wallet)
+        wallet = await WalletModel.create({
+          userId: "default_user",
+          balance: 0,
+          transactions: [],
+        });
+
+      wallet.balance += total;
+      wallet.transactions.unshift({
+        type: "CREDIT",
+        amount: total,
+        reason: `Stock Sell - ${name}`,
+      });
+      await wallet.save();
 
       const { profitOrLoss, isProfit } = pnlResult;
 
@@ -109,7 +173,9 @@ export const newOrder = async (req, res) => {
     return res.status(400).json({ success: false, message: "Invalid mode" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, message: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
 };
 
@@ -125,7 +191,14 @@ const updateHoldingsOnBuy = async (name, qty, price) => {
     existing.price = price;
     await existing.save();
   } else {
-    await HoldingsModel.create({ name, qty, avg: price, price, net: "0%", day: "0%" });
+    await HoldingsModel.create({
+      name,
+      qty,
+      avg: price,
+      price,
+      net: "0%",
+      day: "0%",
+    });
   }
 };
 
@@ -160,7 +233,14 @@ const updatePositionOnBuy = async (name, qty, price) => {
     await existing.save();
   } else {
     await PositionsModel.create({
-      product: "MIS", name, qty, avg: price, price, net: "0%", day: "0%", isLoss: false,
+      product: "MIS",
+      name,
+      qty,
+      avg: price,
+      price,
+      net: "0%",
+      day: "0%",
+      isLoss: false,
     });
   }
 };
@@ -189,6 +269,8 @@ export const getAllOrders = async (req, res) => {
     return res.status(200).json(orders);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, message: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
 };
