@@ -8,12 +8,11 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import authRoute from "./Route/AuthRoute.js";
-import {HoldingsModel} from "./model/HoldingsModel.js"
-import {PositionsModel} from "./model/PositionsModel.js"
+import { HoldingsModel } from "./model/HoldingsModel.js";
+import { PositionsModel } from "./model/PositionsModel.js";
 import marketRoute from "./Route/MarketRoute.js";
 import orderRoute from "./Route/OrderRoute.js";
 import fundsRoute from "./Route/FundsRoute.js";
-
 
 const PORT = process.env.PORT || 5501;
 const uri = process.env.MONGO_URL;
@@ -22,14 +21,13 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5174"], 
+    origin: ["http://localhost:5174"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(cookieParser());
-
 
 // app.get('/addHoldings', async(req, res)=>{
 //   let tempHolding = [
@@ -133,18 +131,18 @@ app.use("/", marketRoute);
 
 app.use("/", fundsRoute);
 
-app.get('/allHoldings', async(req, res) =>{
+app.get("/allHoldings", async (req, res) => {
   let allHoldings = await HoldingsModel.find({});
   res.json(allHoldings);
 });
 
-app.get('/allPositions', async(req, res) =>{
+app.get("/allPositions", async (req, res) => {
   let allPositions = await PositionsModel.find({});
   res.json(allPositions);
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.`);
-    mongoose.connect(uri);
-    console.log("MongoDB connected successfully.");
+  mongoose.connect(uri);
+  console.log("MongoDB connected successfully.");
 });

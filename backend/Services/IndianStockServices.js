@@ -9,7 +9,7 @@ const client = axios.create({
 });
 
 const cache = new Map();
-const CACHE_TTL = 60 * 1000; 
+const CACHE_TTL = 60 * 1000;
 
 const getCached = async (cacheKey, fetchFn) => {
   const cached = cache.get(cacheKey);
